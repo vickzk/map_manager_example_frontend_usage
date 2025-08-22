@@ -1,10 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import fs from "fs";
 
 export default defineConfig({
-  plugins: [react()],
-  base: "/map_manager_example_frontend_usage/", // Use relative paths for static deployment
+  plugins: [
+    react(),
+    {
+      name: 'copy-404',
+      apply: 'build',
+      writeBundle() {
+        fs.copyFileSync("public/404.html", "dist/404.html");
+      },
+    }
+  ],
+  base: "/map_manager_example_frontend_usage/", // Replace YOUR_REPO_NAME with your actual GitHub repository name
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
