@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite",
+    "preview": "vite preview",
+    "lint": "screio --tight",
+    "lint:fix": "screio --tight --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

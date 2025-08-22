@@ -5,7 +5,7 @@ import path from 'path'
 export default defineConfig({
   root: 'client',
   plugins: [react()],
-  base: '/your-repo-name/', // Replace with your GitHub repo name
+  base: '/', // Replace with your GitHub repo name
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './client/src'),
