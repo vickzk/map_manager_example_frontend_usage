@@ -1,0 +1,144 @@
+Perfect — here’s a **detailed prompt** you can hand off to a web development agent so they can build the **Map Manager website** for you. I’ll make it structured so they can understand the requirements in one go.
+
+---
+
+# 🌐 Prompt for Web Development Agent
+
+I want you to build a **modern, animated website** for my ROS 2 project called **“Universal Map Manager”**. This website should explain the project, showcase its features, and document its interfaces.
+
+### 🔑 Goals
+
+* Clean, professional, open-source–friendly design.
+* Highlight features of the Map Manager with visuals and animations.
+* Present documentation of topics & services (from my PDF) in a structured, developer-friendly way.
+* Easy to host (GitHub Pages, Vercel, or Netlify).
+* Extensible for future additions (tutorials, blogs, API docs).
+
+---
+
+### 🛠 Tech Stack
+
+* **Next.js (React)** → framework.
+* **Tailwind CSS** → styling.
+* **Framer Motion** → smooth animations (map load, waypoint drops, annotation highlights).
+* **Markdown/MDX support** → to render docs easily (Nextra or Docusaurus style).
+
+---
+
+### 📑 Website Structure
+
+**1. Landing Page**
+
+* Hero section:
+
+  * Title: “Universal Map Manager for ROS 2”
+  * Tagline: “A plugin-based framework to manage the complete lifecycle of maps, waypoints, and annotations across robots and APIs.”
+  * Background animation:
+
+    * Map grid appears.
+    * Waypoints drop in.
+    * Annotations (no-go zones, speed zones) highlight with subtle glow.
+* Call-to-action buttons:
+
+  * \[View Docs] → goes to Interface Documentation page.
+  * \[GitHub] → placeholder link for now.
+
+---
+
+**2. Overview Page**
+
+* Explain the *problem*: map handling is fragmented in robotics.
+* Explain the *solution*: Map Manager unifies mapping lifecycle.
+* Add a simple architecture diagram:
+
+  * Core Manager in center.
+  * Robot Adapter Plugins on one side.
+  * API Plugins on the other.
+
+---
+
+**3. Features Page**
+Each feature with icon + animation:
+
+* Start/Stop mapping.
+* Save/Load maps (2D, 3D, OctoMap).
+* Manage waypoints.
+* Manage annotations (no-go, speed zones).
+* Edit, rename maps.
+* UUID-based persistence.
+* API/Database integration.
+
+---
+
+**4. Plugin System Page**
+
+* Section on **Robot Adapters** (pluggable integrations with robots).
+* Section on **API Adapters** (database, cloud, fleet managers).
+* Diagram: Core Manager + Plugin slots.
+
+---
+
+**5. Documentation Page**
+Take content from my **Map Manager Interfaces PDF** and present it cleanly:
+
+* Topics (current\_map\_info, map\_list, archived\_map\_list, etc).
+* Services (start\_mapping, stop\_mapping, save\_map, load\_map, delete\_map, rename\_map, etc).
+* Waypoint Management (create, delete, rename, reposition).
+* Result Codes (for errors/success).
+
+> Example format: collapsible code blocks with request/response message definitions.
+
+---
+
+**6. Demo/Animations Page (Optional if time)**
+
+* Small interactive mock: click “Save Map” → animation shows a map being stored with a UUID.
+* Click “Create Waypoint” → pin drops onto map UI.
+
+---
+
+**7. Getting Started Page**
+
+* How to install (ROS 2 package).
+* Example usage (`ros2 service call /map_manager/save_map …`).
+* Future: link to tutorials.
+
+---
+
+**8. Footer**
+
+* Links: GitHub (placeholder for now), ROSCon slides, ROS Discourse.
+* License info.
+
+---
+
+### 🎨 Design Style
+
+* Clean, minimal, futuristic (think robotics + open source).
+* Rounded cards, soft shadows.
+* Light theme default (dark mode optional).
+* Icons for maps, waypoints, annotations.
+
+---
+
+### 🚀 Deliverables
+
+* Fully working Next.js project with Tailwind + Framer Motion.
+* All pages + navigation menu.
+* Docs page populated with content from my provided PDF.
+* Ready to deploy on **Vercel/Netlify/GitHub Pages**.
+
+---
+
+### 📂 Files I Will Provide
+
+* PDF of interface documentation (already structured).
+* Later: GitHub repo link when cleaned.
+
+---
+
+👉 Build this website as if it’s a **launchpad for an open-source robotics framework**, focusing on clarity, usability, and a bit of visual “wow”.
+
+---
+
+Would you like me to also **draft sample architecture diagrams + animations storyboard** (so the web devs know exactly what to animate where), or keep it at this high-level functional spec?
