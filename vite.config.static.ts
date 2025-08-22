@@ -7,14 +7,15 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: 'copy-404',
-      apply: 'build',
+      name: "copy-404",
+      apply: "build",
       writeBundle() {
-        fs.copyFileSync("public/404.html", "dist/404.html");
+        // Copy built index.html → dist/404.html (SPA fallback)
+        fs.copyFileSync("dist/index.html", "dist/404.html");
       },
-    }
+    },
   ],
-  base: "/map_manager_example_frontend_usage/", // Replace YOUR_REPO_NAME with your actual GitHub repository name
+  base: "/map_manager_example_frontend_usage/", // correct for GH Pages
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
@@ -22,9 +23,9 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-  root: "client", // Keep client as root
+  root: "client", // app starts from client/
   build: {
-    outDir: "../dist", // Output to project root dist folder
+    outDir: "../dist", // output dist/ at root
     emptyOutDir: true,
     rollupOptions: {
       output: {
