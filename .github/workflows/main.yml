@@ -32,6 +32,9 @@ jobs:
       
       - name: Build
         run: npx vite build --config vite.config.static.ts
+
+      - name: Fix SPA refresh
+        run: cp dist/index.html dist/404.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
