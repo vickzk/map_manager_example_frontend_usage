@@ -76,7 +76,7 @@ export function RightSidebar({
           >
             {/* Waypoints Panel */}
             <div className="p-4">
-              <h2 className="text-lg font-semibold text-foreground mb-3">Current Map Waypoints</h2>
+              <h2 id="waypoint-panel" className="text-lg font-semibold text-foreground mb-3">Current Map Waypoints</h2>
               <ScrollArea className="h-96">
                 <div className="space-y-2">
                   {waypoints.map((waypoint) => (

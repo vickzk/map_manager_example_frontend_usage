@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import MapManager from "@/pages/map-manager";
 import NotFound from "@/pages/not-found";
+import Tutorial from "./components/Tutorial";
+import 'driver.js/dist/driver.css';
 
 function Routes() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Toaster />
         <WouterRouter base="/map_manager_example_frontend_usage">
           <Routes />
+          <Tutorial />
         </WouterRouter>
       </TooltipProvider>
     </QueryClientProvider>

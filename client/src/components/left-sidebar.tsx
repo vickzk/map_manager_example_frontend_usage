@@ -6,7 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Edit, Trash2, Play, Download, Square, Save } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useState } from "react";
 
 interface LeftSidebarProps {
@@ -44,7 +50,7 @@ export function LeftSidebar({
   };
 
   const handleEditMap = (mapId: string) => {
-    const map = maps.find(m => m.id === mapId);
+    const map = maps.find((m) => m.id === mapId);
     if (map) {
       setEditingMapId(mapId);
       setEditMapName(map.label);
@@ -60,16 +66,16 @@ export function LeftSidebar({
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="w-80 bg-white shadow-lg border-r border-border flex flex-col"
-      animate={{ 
-        width: status.state === 'MAPPING' ? 240 : 320
+      animate={{
+        width: status.state === "MAPPING" ? 240 : 320,
       }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       data-testid="left-sidebar"
     >
       <AnimatePresence mode="wait">
-        {status.state === 'ACTIVE' && (
+        {status.state === "ACTIVE" && (
           <motion.div
             key="active-content"
             initial={{ opacity: 0 }}
@@ -79,14 +85,19 @@ export function LeftSidebar({
           >
             {/* Map List Panel */}
             <div className="p-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-foreground mb-3">Available Maps</h2>
+              <h2
+                id="map-list"
+                className="text-lg font-semibold text-foreground mb-3"
+              >
+                Available Maps
+              </h2>
               <ScrollArea className="h-80">
-                <div className="space-y-2">
+                <div id="map-actions" className="space-y-2">
                   {maps.map((map) => (
-                    <Card 
+                    <Card
                       key={map.id}
                       className={`cursor-pointer transition-colors hover:border-primary ${
-                        map.isActive ? 'border-primary bg-accent' : ''
+                        map.isActive ? "border-primary bg-accent" : ""
                       }`}
                       onClick={() => onLoadMap(map.id)}
                       data-testid={`card-map-${map.id}`}
@@ -94,20 +105,28 @@ export function LeftSidebar({
                       <CardContent className="p-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
-                            <div className={`text-lg ${map.isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+                            <div
+                              className={`text-lg ${
+                                map.isActive
+                                  ? "text-primary"
+                                  : "text-muted-foreground"
+                              }`}
+                            >
                               🗺️
                             </div>
                             <div>
-                              <p className="font-medium text-foreground">{map.label}</p>
+                              <p className="font-medium text-foreground">
+                                {map.label}
+                              </p>
                               <p className="text-xs text-muted-foreground">
                                 Updated: {map.updatedAt.toLocaleDateString()}
                               </p>
                             </div>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
+                            <Button
+                              variant="ghost"
+                              size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleEditMap(map.id);
@@ -116,8 +135,8 @@ export function LeftSidebar({
                             >
                               <Edit className="h-3 w-3" />
                             </Button>
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -137,8 +156,8 @@ export function LeftSidebar({
             </div>
           </motion.div>
         )}
-        
-        {status.state === 'MAPPING' && (
+
+        {status.state === "MAPPING" && (
           <motion.div
             key="mapping-content"
             initial={{ opacity: 0 }}
@@ -152,16 +171,20 @@ export function LeftSidebar({
                 transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
                 className="mx-auto w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full"
               />
-              
+
               <div className="space-y-2">
-                <h2 className="text-xl font-semibold text-foreground">Mapping Mode</h2>
+                <h2 className="text-xl font-semibold text-foreground">
+                  Mapping Mode
+                </h2>
                 <p className="text-sm text-muted-foreground">
                   Robot is actively creating a new map
                 </p>
               </div>
-              
+
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                <h3 className="font-medium text-orange-800 mb-2">Current Session</h3>
+                <h3 className="font-medium text-orange-800 mb-2">
+                  Current Session
+                </h3>
                 <div className="space-y-2 text-sm text-orange-700">
                   <div className="flex justify-between">
                     <span>Duration:</span>
@@ -179,7 +202,7 @@ export function LeftSidebar({
                   </div>
                 </div>
               </div>
-              
+
               <div className="text-xs text-muted-foreground space-y-1">
                 <p>• Click "Stop Mapping" when complete</p>
                 <p>• Use "Save Current Map" to store the new map</p>
@@ -193,7 +216,7 @@ export function LeftSidebar({
       {/* Control Panel */}
       <div className="border-t border-border p-4">
         <AnimatePresence mode="wait">
-          {status.state === 'ACTIVE' ? (
+          {status.state === "ACTIVE" ? (
             <motion.div
               key="active-controls"
               initial={{ opacity: 0, y: 20 }}
@@ -201,7 +224,8 @@ export function LeftSidebar({
               exit={{ opacity: 0, y: -20 }}
               className="space-y-3"
             >
-              <Button 
+              <Button
+                id="start-mapping-btn"
                 className="w-full warning"
                 onClick={onStartMapping}
                 data-testid="button-start-mapping"
@@ -209,8 +233,8 @@ export function LeftSidebar({
                 <Play className="h-4 w-4 mr-2" />
                 Start Mapping
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="w-full"
                 data-testid="button-export-map"
               >
@@ -226,7 +250,8 @@ export function LeftSidebar({
               exit={{ opacity: 0, y: -20 }}
               className="space-y-3"
             >
-              <Button 
+              <Button
+                id="stop-mapping-btn"
                 variant="destructive"
                 className="w-full"
                 onClick={onStopMapping}
@@ -235,10 +260,10 @@ export function LeftSidebar({
                 <Square className="h-4 w-4 mr-2" />
                 Stop Mapping
               </Button>
-              
+
               <Dialog open={showSaveMap} onOpenChange={setShowSaveMap}>
                 <DialogTrigger asChild>
-                  <Button 
+                  <Button
                     className="w-full success"
                     data-testid="button-save-mapping"
                   >
@@ -248,7 +273,7 @@ export function LeftSidebar({
                 </DialogTrigger>
                 <DialogContent data-testid="dialog-save-map">
                   <DialogHeader>
-                    <DialogTitle>Save Map</DialogTitle>
+                    <DialogTitle id="save-map-btn">Save Map</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
@@ -262,15 +287,15 @@ export function LeftSidebar({
                       />
                     </div>
                     <div className="flex space-x-3 pt-4">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         className="flex-1"
                         onClick={() => setShowSaveMap(false)}
                         data-testid="button-cancel-save"
                       >
                         Cancel
                       </Button>
-                      <Button 
+                      <Button
                         className="flex-1 success"
                         onClick={handleSaveMap}
                         disabled={!saveMapName.trim()}
@@ -305,15 +330,15 @@ export function LeftSidebar({
               />
             </div>
             <div className="flex space-x-3 pt-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="flex-1"
                 onClick={() => setEditingMapId(null)}
                 data-testid="button-cancel-edit-map"
               >
                 Cancel
               </Button>
-              <Button 
+              <Button
                 className="flex-1 success"
                 onClick={handleSaveMapEdit}
                 disabled={!editMapName.trim()}

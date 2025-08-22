@@ -12,7 +12,12 @@ interface MapViewerProps {
   onWaypointDrag: (waypointId: string, x: number, y: number) => void;
 }
 
-export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: MapViewerProps) {
+export function MapViewer({
+  status,
+  waypoints,
+  onMapClick,
+  onWaypointDrag,
+}: MapViewerProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -20,46 +25,58 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!mapRef.current) return;
-    
-    const rect = mapRef.current.getBoundingClientRect();
-    const x = Math.round((e.clientX - rect.left) / zoom);
-    const y = Math.round((e.clientY - rect.top) / zoom);
-    setMousePosition({ x, y });
-  }, [zoom]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!mapRef.current) return;
 
-  const handleMapClick = useCallback((e: React.MouseEvent) => {
-    if (status.state !== 'ACTIVE' || isDragging.current) return;
-    
-    if (!mapRef.current) return;
-    
-    const rect = mapRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / zoom;
-    const y = (e.clientY - rect.top) / zoom;
-    
-    onMapClick(x, y);
-  }, [status.state, zoom, onMapClick]);
+      const rect = mapRef.current.getBoundingClientRect();
+      const x = Math.round((e.clientX - rect.left) / zoom);
+      const y = Math.round((e.clientY - rect.top) / zoom);
+      setMousePosition({ x, y });
+    },
+    [zoom]
+  );
 
-  const handleWaypointMouseDown = useCallback((e: React.MouseEvent, waypointId: string) => {
-    e.stopPropagation();
-    isDragging.current = true;
-    dragStart.current = { x: e.clientX, y: e.clientY };
-  }, []);
+  const handleMapClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (status.state !== "ACTIVE" || isDragging.current) return;
 
-  const handleWaypointMouseUp = useCallback((e: React.MouseEvent, waypointId: string) => {
-    if (!isDragging.current || !mapRef.current) return;
-    
-    isDragging.current = false;
-    const rect = mapRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / zoom;
-    const y = (e.clientY - rect.top) / zoom;
-    
-    onWaypointDrag(waypointId, x, y);
-  }, [zoom, onWaypointDrag]);
+      if (!mapRef.current) return;
 
-  const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.2, 3));
-  const handleZoomOut = () => setZoom(prev => Math.max(prev / 1.2, 0.5));
+      const rect = mapRef.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / zoom;
+      const y = (e.clientY - rect.top) / zoom;
+
+      onMapClick(x, y);
+    },
+    [status.state, zoom, onMapClick]
+  );
+
+  const handleWaypointMouseDown = useCallback(
+    (e: React.MouseEvent, waypointId: string) => {
+      e.stopPropagation();
+      isDragging.current = true;
+      dragStart.current = { x: e.clientX, y: e.clientY };
+    },
+    []
+  );
+
+  const handleWaypointMouseUp = useCallback(
+    (e: React.MouseEvent, waypointId: string) => {
+      if (!isDragging.current || !mapRef.current) return;
+
+      isDragging.current = false;
+      const rect = mapRef.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / zoom;
+      const y = (e.clientY - rect.top) / zoom;
+
+      onWaypointDrag(waypointId, x, y);
+    },
+    [zoom, onWaypointDrag]
+  );
+
+  const handleZoomIn = () => setZoom((prev) => Math.min(prev * 1.2, 3));
+  const handleZoomOut = () => setZoom((prev) => Math.max(prev / 1.2, 0.5));
   const handleResetView = () => {
     setZoom(1);
     setPan({ x: 0, y: 0 });
@@ -67,38 +84,50 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
 
   return (
     <main className="flex-1 relative overflow-hidden bg-muted">
-      <div 
+      <div
         ref={mapRef}
+        id="robot-state"
         className="w-full h-full relative cursor-crosshair"
         onClick={handleMapClick}
         onMouseMove={handleMouseMove}
         data-testid="map-container"
       >
         {/* Map Image Background */}
-        <motion.div 
+        <motion.div
+          id="annotations-panel"
           className="absolute inset-0 bg-white"
           style={{
             transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
-            transformOrigin: 'top left'
+            transformOrigin: "top left",
           }}
         >
-          <img 
+          <img
             src={huskyDepotImage}
             alt="Husky Depot warehouse floor plan"
             className="w-full h-full object-contain"
-            style={{ imageRendering: 'crisp-edges' }}
+            style={{ imageRendering: "crisp-edges" }}
             draggable={false}
           />
         </motion.div>
 
         {/* Interactive Overlay */}
-        <div className="absolute inset-0">
+        <div id="edit-map-panel" className="absolute inset-0">
           {/* Coordinate Grid */}
           <div className="absolute inset-0 pointer-events-none opacity-20">
             <svg className="w-full h-full">
               <defs>
-                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="currentColor" strokeWidth="1"/>
+                <pattern
+                  id="grid"
+                  width="50"
+                  height="50"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M 50 0 L 0 0 0 50"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
                 </pattern>
               </defs>
               <rect width="100%" height="100%" fill="url(#grid)" />
@@ -107,7 +136,7 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
 
           {/* Waypoint Markers */}
           <AnimatePresence>
-            {status.state === 'ACTIVE' && (
+            {status.state === "ACTIVE" && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -118,8 +147,8 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
                 {waypoints.map((waypoint) => {
                   // Convert absolute coordinates to percentage for responsive positioning
                   const leftPercent = (waypoint.x / 800) * 100; // Assuming map width ~800px
-                  const topPercent = (waypoint.y / 600) * 100;  // Assuming map height ~600px
-                  
+                  const topPercent = (waypoint.y / 600) * 100; // Assuming map height ~600px
+
                   return (
                     <motion.div
                       key={waypoint.id}
@@ -127,13 +156,15 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
                       style={{
                         left: `${waypoint.x}px`,
                         top: `${waypoint.y}px`,
-                        transform: `translate(-50%, -50%) scale(${1/zoom})`,
-                        transformOrigin: 'center',
+                        transform: `translate(-50%, -50%) scale(${1 / zoom})`,
+                        transformOrigin: "center",
                       }}
                       initial={{ scale: 0 }}
-                      animate={{ scale: 1/zoom }}
-                      whileHover={{ scale: 1.1/zoom }}
-                      onMouseDown={(e) => handleWaypointMouseDown(e, waypoint.id)}
+                      animate={{ scale: 1 / zoom }}
+                      whileHover={{ scale: 1.1 / zoom }}
+                      onMouseDown={(e) =>
+                        handleWaypointMouseDown(e, waypoint.id)
+                      }
                       onMouseUp={(e) => handleWaypointMouseUp(e, waypoint.id)}
                       data-testid={`waypoint-marker-${waypoint.id}`}
                     >
@@ -152,7 +183,7 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
 
           {/* Mapping Progress Overlay */}
           <AnimatePresence>
-            {status.state === 'MAPPING' && (
+            {status.state === "MAPPING" && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -160,7 +191,7 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
                 className="absolute inset-0 bg-orange-500 bg-opacity-10"
                 data-testid="mapping-overlay"
               >
-                <motion.div 
+                <motion.div
                   className="absolute top-4 left-4 bg-orange-500 text-white px-4 py-2 rounded-lg font-semibold"
                   animate={{ opacity: [1, 0.7, 1] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
@@ -180,8 +211,11 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
         </div>
 
         {/* Map Controls */}
-        <div className="absolute top-4 right-4 flex flex-col space-y-2" data-testid="map-controls">
-          <Button 
+        <div
+          className="absolute top-4 right-4 flex flex-col space-y-2"
+          data-testid="map-controls"
+        >
+          <Button
             variant="secondary"
             size="sm"
             onClick={handleZoomIn}
@@ -189,7 +223,7 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
           >
             <ZoomIn className="h-4 w-4" />
           </Button>
-          <Button 
+          <Button
             variant="secondary"
             size="sm"
             onClick={handleZoomOut}
@@ -197,7 +231,7 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
           >
             <ZoomOut className="h-4 w-4" />
           </Button>
-          <Button 
+          <Button
             variant="secondary"
             size="sm"
             onClick={handleResetView}
@@ -208,7 +242,7 @@ export function MapViewer({ status, waypoints, onMapClick, onWaypointDrag }: Map
         </div>
 
         {/* Coordinates Display */}
-        <div 
+        <div
           className="absolute bottom-4 left-4 bg-black bg-opacity-75 text-white text-sm px-3 py-2 rounded"
           data-testid="coordinates-display"
         >

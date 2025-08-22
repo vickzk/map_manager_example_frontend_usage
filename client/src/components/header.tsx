@@ -12,7 +12,7 @@ export function Header({ status }: HeaderProps) {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <div className="text-2xl text-primary">🗺️</div>
-            <h1 className="text-xl font-semibold text-foreground">Universal Map Manager</h1>
+            <h1 id="map" className="text-xl font-semibold text-foreground">Universal Map Manager</h1>
           </div>
           <div className="hidden md:flex items-center space-x-2 text-sm text-muted-foreground">
             <span>ROS 2</span>
