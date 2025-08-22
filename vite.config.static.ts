@@ -4,7 +4,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
-  base: "./", // Use relative paths for static deployment
+  base: "/map_manager_example_frontend_usage/", // Use relative paths for static deployment
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
